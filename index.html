@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet">
+  <title>श्रीरामरक्षास्तोत्रम्</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #2a160d;
+      --bg-deep: #170b07;
+      --ink: #3c1d0f;
+      --ink-soft: #704225;
+      --paper: #e8c98d;
+      --paper-hi: #f7e5b8;
+      --paper-low: #c99652;
+      --saffron: #b54e1b;
+      --vermillion: #8e2615;
+      --gold: #d9a945;
+      --line: rgba(83, 37, 13, .26);
+      --text-on-dark: #f6e6c9;
+      --muted-on-dark: #d8b98d;
+      --focus: #ffe196;
+      --shadow: 0 18px 46px rgba(15, 6, 2, .42);
+    }
+    @media (prefers-color-scheme: light) {
+      :root { --bg: #7a3a1c; --bg-deep: #3a170d; }
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #bd9257; --paper-hi: #dfbd80; --paper-low: #966535;
+        --ink: #28140c; --ink-soft: #4c2a18; --line: rgba(55, 25, 10, .35);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+    body {
+      margin: 0;
+      color: var(--text-on-dark);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(208, 115, 45, .18), transparent 34rem),
+        radial-gradient(circle at 83% 28%, rgba(176, 76, 27, .11), transparent 30rem),
+        repeating-linear-gradient(95deg, rgba(255,255,255,.012) 0 1px, transparent 1px 7px),
+        linear-gradient(180deg, var(--bg), var(--bg-deep));
+      font-family: "Noto Sans Devanagari", sans-serif;
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr);
+    }
+    button { font: inherit; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    a { color: inherit; }
+    .skip-link {
+      position: fixed; top: .5rem; left: .5rem; z-index: 99;
+      padding: .7rem 1rem; background: var(--paper-hi); color: var(--ink);
+      transform: translateY(-160%);
+    }
+    .skip-link:focus { transform: none; }
+    .masthead {
+      display: flex; align-items: baseline; justify-content: center; gap: .7rem;
+      padding: max(.55rem, env(safe-area-inset-top)) 1rem .45rem;
+      text-align: center;
+    }
+    .invocation {
+      margin: 0; color: #ffd47d;
+      font: 400 .84rem/1.2 "Tiro Devanagari Sanskrit", serif;
+      white-space: nowrap;
+    }
+    h1 {
+      margin: 0; color: #fff0cf; text-shadow: 0 2px 0 #5e2411;
+      font: 400 clamp(1.08rem, 4vw, 1.5rem)/1.2 "Tiro Devanagari Sanskrit", serif;
+    }
+    .controls-wrap {
+      padding: .42rem max(.75rem, env(safe-area-inset-left));
+      background: color-mix(in srgb, var(--bg-deep) 86%, transparent);
+      border-block: 1px solid rgba(242, 189, 103, .2);
+    }
+    .controls {
+      max-width: 940px; margin: 0 auto;
+      display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .8rem;
+    }
+    .progress-copy { min-width: 0; }
+    .path-summary {
+      display: flex; align-items: baseline; gap: .55rem; min-width: 0;
+      color: #f4d9aa; font: 400 .9rem/1.35 "Tiro Devanagari Sanskrit", serif;
+    }
+    #cardLabel { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #cardCount { color: #d8aa67; white-space: nowrap; font-family: "Noto Sans Devanagari", sans-serif; font-size: .76rem; }
+    .progress-track {
+      position: relative; height: 24px; margin-top: .1rem;
+      display: flex; align-items: center;
+    }
+    .progress-track::before {
+      content: ""; position: absolute; inset-inline: 0; top: 10px; height: 4px;
+      border-radius: 4px; background: rgba(244, 217, 170, .18);
+    }
+    .progress-fill {
+      position: absolute; inset-inline-start: 0; top: 10px;
+      display: block; width: 2.5%; height: 4px; border-radius: 4px; background: #efbd68;
+      transition: width .16s ease; pointer-events: none;
+    }
+    .progress-slider {
+      position: relative; z-index: 1; width: 100%; height: 24px; margin: 0;
+      appearance: none; -webkit-appearance: none; background: transparent;
+      cursor: grab; touch-action: pan-x;
+    }
+    .progress-slider:active { cursor: grabbing; }
+    .progress-slider::-webkit-slider-runnable-track { height: 24px; background: transparent; }
+    .progress-slider::-moz-range-track { height: 24px; background: transparent; }
+    .progress-slider::-webkit-slider-thumb {
+      appearance: none; -webkit-appearance: none; width: 20px; height: 20px; margin-top: 2px;
+      border: 3px solid #5a2713; border-radius: 50%; background: #ffd787;
+      box-shadow: 0 1px 6px rgba(15, 6, 2, .65);
+    }
+    .progress-slider::-moz-range-thumb {
+      width: 16px; height: 16px; border: 3px solid #5a2713; border-radius: 50%;
+      background: #ffd787; box-shadow: 0 1px 6px rgba(15, 6, 2, .65);
+    }
+    .source-link { color: #e4bd83; font-size: .76rem; text-underline-offset: .2em; }
+    main {
+      min-height: 0; padding: .7rem .7rem max(.55rem, env(safe-area-inset-bottom));
+      display: grid; place-items: start center;
+    }
+    .deck-shell {
+      width: min(980px, 100%); height: min(560px, 100%); margin: 0 auto;
+      display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: .52rem;
+    }
+    .deck-stage {
+      position: relative; min-height: 0; perspective: 1400px;
+      transform-style: preserve-3d; touch-action: pan-y; user-select: none;
+      overflow: clip; isolation: isolate; contain: layout paint;
+    }
+    .deck-stage::before,
+    .deck-stage::after {
+      content: ""; position: absolute; inset: 0;
+      width: min(880px, calc(100% - 1.4rem)); height: calc(100% - 10px); margin: auto;
+      background: linear-gradient(137deg, var(--paper-hi), var(--paper) 58%, var(--paper-low));
+      box-shadow: 0 12px 28px rgba(15, 6, 2, .24);
+      clip-path: polygon(.5% 1.4%, 2.2% .3%, 6.2% .8%, 12% .3%, 20% .8%, 31% .2%, 46% .8%, 61% .1%, 78% .7%, 94% .2%, 99.4% 1.4%, 99% 98.7%, 89% 99.2%, 73% 99%, 56% 99.5%, 39% 99%, 23% 99.4%, 8% 98.9%, 1% 99.4%);
+      pointer-events: none;
+    }
+    .deck-stage::before { z-index: 1; opacity: .58; transform: translate3d(6.5%, 14px, -80px) scale(.95); }
+    .deck-stage::after { z-index: 2; opacity: .78; transform: translate3d(3.5%, 7px, -42px) scale(.975); }
+    .scroll {
+      position: absolute; inset: 0; z-index: 0;
+      width: min(880px, calc(100% - 1.4rem)); height: 100%; margin: auto;
+      padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 4.5vw, 3.2rem);
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(107,57,24,.16), transparent 8%, transparent 92%, rgba(107,57,24,.17)),
+        repeating-linear-gradient(3deg, rgba(103,56,24,.025) 0 1px, transparent 1px 7px),
+        radial-gradient(ellipse at 15% 4%, rgba(255,255,255,.35), transparent 34%),
+        linear-gradient(137deg, var(--paper-hi), var(--paper) 58%, var(--paper-low));
+      box-shadow: var(--shadow), inset 0 0 24px rgba(102,52,21,.18);
+      clip-path: polygon(.5% 1.4%, 2.2% .3%, 4% 1%, 6.2% .2%, 9% 1%, 12% .3%, 15% .8%, 20% .15%, 25% .8%, 31% .2%, 38% .9%, 46% .3%, 54% .9%, 61% .1%, 70% .7%, 78% .2%, 87% .9%, 94% .2%, 99.4% 1.4%, 99% 98.7%, 95% 99.6%, 89% 98.9%, 81% 99.7%, 73% 99%, 65% 99.7%, 56% 99%, 48% 99.7%, 39% 99%, 31% 99.7%, 23% 99.1%, 15% 99.7%, 8% 98.9%, 1% 99.4%);
+      overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
+      display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none; visibility: hidden;
+      transform: translate3d(0,0,0); transform-origin: center center;
+      backface-visibility: hidden; contain: layout paint style;
+    }
+    .scroll[hidden] { display: none !important; }
+    .scroll::after {
+      content: ""; position: absolute; inset: 8px 11px; pointer-events: none;
+      border: 1px solid rgba(102,49,19,.18);
+    }
+    .scroll.is-active {
+      z-index: 4; opacity: 1; pointer-events: auto; visibility: visible;
+    }
+    .deck-stage.move-next .scroll.is-active { animation: card-in-next .25s cubic-bezier(.2,.78,.24,1); }
+    .deck-stage.move-prev .scroll.is-active { animation: card-in-prev .25s cubic-bezier(.2,.78,.24,1); }
+    @keyframes card-in-next {
+      from { opacity: .35; transform: translate3d(9%, 4px, 0) rotateY(-4deg) scale(.985); }
+      to { opacity: 1; transform: translate3d(0,0,0) rotateY(0) scale(1); }
+    }
+    @keyframes card-in-prev {
+      from { opacity: .35; transform: translate3d(-9%, 4px, 0) rotateY(4deg) scale(.985); }
+      to { opacity: 1; transform: translate3d(0,0,0) rotateY(0) scale(1); }
+    }
+    .scroll-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      width: 100%; margin-top: auto; margin-bottom: .45rem;
+    }
+    .scroll-head, .verse, .meanings { flex-shrink: 0; }
+    .number { color: var(--vermillion); font: 400 .94rem/1 "Tiro Devanagari Sanskrit", serif; }
+    .tag { color: var(--ink-soft); border-block: 1px solid var(--line); padding: .14rem .38rem; font-size: .68rem; }
+    .verse {
+      margin: .2rem auto .8rem; max-width: 800px;
+      color: var(--ink); text-align: center; text-wrap: balance; overflow-wrap: anywhere;
+      font: 400 clamp(1.1rem, 2.45vw, 1.55rem)/1.72 "Tiro Devanagari Sanskrit", serif;
+    }
+    .meanings {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+      width: 100%; max-width: 790px; margin: 0 auto auto; padding-top: .78rem;
+      border-top: 1px solid var(--line);
+    }
+    .meaning-block { min-width: 0; }
+    .meaning-block + .meaning-block { border-left: 1px solid var(--line); padding-left: 1rem; }
+    .meaning-label {
+      display: block; margin-bottom: .2rem; color: var(--vermillion);
+      font-size: .7rem; font-weight: 700; letter-spacing: .035em;
+    }
+    .meaning-block p { margin: 0; color: var(--ink-soft); font-size: clamp(.78rem, 1.65vw, .94rem); line-height: 1.55; }
+    .meaning-block[lang="en"] p { font-family: Georgia, "Times New Roman", serif; line-height: 1.5; }
+    .deck-nav {
+      display: grid; grid-template-columns: minmax(104px, 1fr) auto minmax(104px, 1fr);
+      align-items: center; gap: .7rem;
+    }
+    .nav-btn {
+      min-height: 44px; border: 1px solid rgba(245,205,138,.48); border-radius: 3px;
+      background: rgba(38,16,8,.62); color: #ffe1a5; cursor: pointer; font-weight: 600;
+    }
+    .nav-btn:last-child { justify-self: stretch; }
+    .nav-btn:hover, .nav-btn:focus-visible { background: rgba(255,225,165,.11); }
+    .nav-btn:disabled { opacity: .34; cursor: default; }
+    .swipe-hint { color: #d9b47b; font-size: .72rem; white-space: nowrap; }
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    @media (max-width: 620px) {
+      .masthead { padding-inline: .7rem; }
+      .invocation { display: none; }
+      .controls-wrap { padding-inline: .7rem; }
+      main { padding: .42rem .35rem max(.45rem, env(safe-area-inset-bottom)); }
+      .deck-shell { height: auto; max-height: 100%; grid-template-rows: minmax(0, auto) auto; gap: .4rem; }
+      .deck-stage { height: auto; overflow: visible; }
+      .scroll {
+        position: relative; inset: auto; width: calc(100% - .5rem); height: auto;
+        max-height: calc(100dvh - 190px); padding: .9rem .9rem 1rem;
+      }
+      .scroll::after { inset: 7px; }
+      .verse { font-size: clamp(.98rem, 4.05vw, 1.22rem); line-height: 1.6; margin-bottom: .55rem; }
+      .meanings { grid-template-columns: 1fr; gap: .48rem; padding-top: .55rem; }
+      .meaning-block + .meaning-block { border-left: 0; border-top: 1px dotted var(--line); padding: .45rem 0 0; }
+      .meaning-block p { font-size: clamp(.72rem, 3.2vw, .86rem); line-height: 1.42; }
+      .meaning-block[lang="en"] p { line-height: 1.38; }
+      .meaning-label { font-size: .64rem; }
+      .deck-nav { grid-template-columns: 1fr 1fr; }
+      .swipe-hint { display: none; }
+      .source-link { font-size: .7rem; }
+    }
+    @media (max-height: 650px) {
+      .masthead { padding-block: .3rem; }
+      .controls-wrap { padding-block: .28rem; }
+      main { padding-top: .3rem; }
+      .scroll { padding-block: .7rem; }
+      .verse { font-size: clamp(.9rem, 3.6vw, 1.1rem); line-height: 1.45; margin-bottom: .4rem; }
+      .meanings { padding-top: .4rem; }
+      .meaning-block p { font-size: .71rem; line-height: 1.34; }
+      .deck-nav { gap: .4rem; }
+      .nav-btn { min-height: 40px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .deck-stage.move-next .scroll.is-active,
+      .deck-stage.move-prev .scroll.is-active { animation: none; }
+      .progress-fill { transition-duration: .01ms; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#deck">सीधे स्तोत्र पर जाएँ</a>
+  <header class="masthead">
+    <p class="invocation">ॐ श्रीगणेशाय नमः</p>
+    <h1>॥ श्रीरामरक्षास्तोत्रम् ॥</h1>
+  </header>
+
+  <nav class="controls-wrap" aria-label="पाठ की स्थिति">
+    <div class="controls">
+      <div class="progress-copy">
+        <div class="path-summary" role="status" aria-live="polite">
+          <span id="cardLabel">विनियोगः</span><span id="cardCount">१ / ४० · खींचकर चुनें</span>
+        </div>
+        <div class="progress-track">
+          <span class="progress-fill" id="progressFill" aria-hidden="true"></span>
+          <input class="progress-slider" id="progressSlider" type="range" min="1" max="40" value="1" step="1" aria-label="पाठ में स्थान चुनें">
+        </div>
+      </div>
+      <a class="source-link" href="https://mr.wikisource.org/wiki/%E0%A4%B0%E0%A4%BE%E0%A4%AE%E0%A4%B0%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%BE" target="_blank" rel="noopener noreferrer">पाठ-स्रोत</a>
+    </div>
+  </nav>
+
+  <main id="stotra">
+    <div class="deck-shell">
+      <section class="deck-stage" id="deck" aria-label="श्रीरामरक्षास्तोत्र कार्ड संग्रह"></section>
+      <nav class="deck-nav" aria-label="श्लोक बदलें">
+        <button class="nav-btn" id="prevBtn" type="button">← पिछला</button>
+        <span class="swipe-hint" aria-hidden="true">← स्वाइप करें →</span>
+        <button class="nav-btn" id="nextBtn" type="button">अगला →</button>
+      </nav>
+    </div>
+  </main>
+
+<script>
+const verses = [
+  {n:1, s:`चरितं रघुनाथस्य शतकोटिप्रविस्तरम् ।<br>एकैकमक्षरं पुंसां महापातकनाशनम् ॥१॥`, m:`श्रीरघुनाथ का चरित्र सौ करोड़ श्लोकों जितना विस्तृत है। उसका एक-एक अक्षर मनुष्य के महान पापों का नाश करने वाला माना गया है।`, tag:`महिमा`},
+  {n:2, s:`ध्यात्वा नीलोत्पलश्यामं रामं राजीवलोचनम् ।<br>जानकीलक्ष्मणोपेतं जटामुकुटमण्डितम् ॥२॥`, m:`नीलकमल के समान श्याम, कमलनयन, सीता और लक्ष्मण से युक्त तथा जटामुकुट से शोभित श्रीराम का ध्यान किया जाता है।`, tag:`ध्यान`},
+  {n:3, s:`सासितूणधनुर्बाणपाणिं नक्तञ्चरान्तकम् ।<br>स्वलीलया जगत्त्रातुमाविर्भूतमजं विभुम् ॥३॥`, m:`खड्ग, तरकस, धनुष और बाण धारण करने वाले, राक्षसों का अन्त करने वाले, अजन्मा और सर्वव्यापक प्रभु संसार की रक्षा के लिए अपनी लीला से प्रकट हुए हैं।`, tag:`ध्यान`},
+  {n:4, s:`रामरक्षां पठेत्प्राज्ञः पापघ्नीं सर्वकामदाम् ।<br>शिरो मे राघवः पातु भालं दशरथात्मजः ॥४॥`, m:`बुद्धिमान व्यक्ति पापों को हरने वाली और कल्याणकारी रामरक्षा का पाठ करे। राघव मेरे सिर और दशरथपुत्र मेरे ललाट की रक्षा करें।`, tag:`कवच`},
+  {n:5, s:`कौसल्येयो दृशौ पातु विश्वामित्रप्रियः श्रुती ।<br>घ्राणं पातु मखत्राता मुखं सौमित्रिवत्सलः ॥५॥`, m:`कौसल्यापुत्र नेत्रों की, विश्वामित्रप्रिय कानों की, यज्ञरक्षक नासिका की और लक्ष्मणवत्सल मुख की रक्षा करें।`, tag:`कवच`},
+  {n:6, s:`जिह्वां विद्यानिधिः पातु कण्ठं भरतवन्दितः ।<br>स्कन्धौ दिव्यायुधः पातु भुजौ भग्नेशकार्मुकः ॥६॥`, m:`विद्या के भण्डार जिह्वा की, भरत-वन्दित कण्ठ की, दिव्यास्त्रधारी कन्धों की और शिवधनुष तोड़ने वाले श्रीराम भुजाओं की रक्षा करें।`, tag:`कवच`},
+  {n:7, s:`करौ सीतापतिः पातु हृदयं जामदग्न्यजित् ।<br>मध्यं पातु खरध्वंसी नाभिं जाम्बवदाश्रयः ॥७॥`, m:`सीतापति हाथों की, परशुराम-विजेता हृदय की, खर-विनाशक शरीर के मध्य भाग की और जाम्बवान के आश्रय श्रीराम नाभि की रक्षा करें।`, tag:`कवच`},
+  {n:8, s:`सुग्रीवेशः कटी पातु सक्थिनी हनुमत्प्रभुः ।<br>ऊरू रघूत्तमः पातु रक्षःकुलविनाशकृत् ॥८॥`, m:`सुग्रीव के स्वामी कटि की, हनुमान के प्रभु जंघाओं की और राक्षसकुल का विनाश करने वाले रघुश्रेष्ठ दोनों ऊरुओं की रक्षा करें।`, tag:`कवच`},
+  {n:9, s:`जानुनी सेतुकृत्पातु जङ्घे दशमुखान्तकः ।<br>पादौ विभीषणश्रीदः पातु रामोऽखिलं वपुः ॥९॥`, m:`समुद्र पर सेतु बनाने वाले घुटनों की, रावण-विनाशक पिंडलियों की, विभीषण को राज्य देने वाले चरणों की और श्रीराम सम्पूर्ण शरीर की रक्षा करें।`, tag:`कवच`},
+  {n:10, s:`एतां रामबलोपेतां रक्षां यः सुकृती पठेत् ।<br>स चिरायुः सुखी पुत्री विजयी विनयी भवेत् ॥१०॥`, m:`जो पुण्यात्मा रामबल से सम्पन्न इस रक्षा का पाठ करता है, वह दीर्घायु, सुखी, सन्तानवान, विजयी और विनम्र होता है।`, tag:`फलश्रुति`},
+  {n:11, s:`पातालभूतलव्योमचारिणश्छद्मचारिणः ।<br>न द्रष्टुमपि शक्तास्ते रक्षितं रामनामभिः ॥११॥`, m:`पाताल, पृथ्वी या आकाश में विचरने वाली छद्म शक्तियाँ भी रामनामों से सुरक्षित व्यक्ति को देख पाने में समर्थ नहीं होतीं।`, tag:`फलश्रुति`},
+  {n:12, s:`रामेति रामभद्रेति रामचन्द्रेति वा स्मरन् ।<br>नरो न लिप्यते पापैर्भुक्तिं मुक्तिं च विन्दति ॥१२॥`, m:`राम, रामभद्र अथवा रामचन्द्र नाम का स्मरण करने वाला पापों से लिप्त नहीं होता और भोग तथा मोक्ष—दोनों को प्राप्त करता है।`, tag:`नाम-महिमा`},
+  {n:13, s:`जगज्जेत्रैकमन्त्रेण रामनाम्नाभिरक्षितम् ।<br>यः कण्ठे धारयेत्तस्य करस्थाः सर्वसिद्धयः ॥१३॥`, m:`जगत् को जीतने वाले रामनाम-मन्त्र को जो कण्ठ में धारण करता है, उसके लिए सभी सिद्धियाँ मानो हाथ में रहती हैं।`, tag:`नाम-महिमा`},
+  {n:14, s:`वज्रपञ्जरनामेदं यो रामकवचं स्मरेत् ।<br>अव्याहताज्ञः सर्वत्र लभते जयमङ्गलम् ॥१४॥`, m:`वज्र-पिंजरे जैसा अभेद्य यह रामकवच जो स्मरण करता है, उसकी आज्ञा निर्बाध होती है और उसे सर्वत्र विजय तथा मङ्गल मिलता है।`, tag:`कवच`},
+  {n:15, s:`आदिष्टवान्यथा स्वप्ने रामरक्षामिमां हरः ।<br>तथा लिखितवान्प्रातः प्रबुद्धो बुधकौशिकः ॥१५॥`, m:`भगवान शिव ने स्वप्न में जिस प्रकार यह रामरक्षा सुनाई, जागने पर बुधकौशिक ऋषि ने उसी रूप में इसे लिख दिया।`, tag:`उत्पत्ति`},
+  {n:16, s:`आरामः कल्पवृक्षाणां विरामः सकलापदाम् ।<br>अभिरामस्त्रिलोकानां रामः श्रीमान् स नः प्रभुः ॥१६॥`, m:`श्रीराम कल्पवृक्षों के उद्यान, समस्त विपत्तियों के विराम और तीनों लोकों के आनन्द हैं; वही हमारे प्रभु हैं।`, tag:`राम-स्तुति`},
+  {n:17, s:`तरुणौ रूपसम्पन्नौ सुकुमारौ महाबलौ ।<br>पुण्डरीकविशालाक्षौ चीरकृष्णाजिनाम्बरौ ॥१७॥`, m:`राम और लक्ष्मण तरुण, रूपवान, सुकुमार, अत्यन्त बलवान, कमल जैसे विशाल नेत्रों वाले तथा वल्कल और मृगचर्म पहने हैं।`, tag:`राम-लक्ष्मण`},
+  {n:18, s:`फलमूलाशिनौ दान्तौ तापसौ ब्रह्मचारिणौ ।<br>पुत्रौ दशरथस्यैतौ भ्रातरौ रामलक्ष्मणौ ॥१८॥`, m:`फल-मूल खाने वाले, संयमी, तपस्वी और ब्रह्मचारी ये दोनों दशरथपुत्र—राम और लक्ष्मण—परस्पर भ्राता हैं।`, tag:`राम-लक्ष्मण`},
+  {n:19, s:`शरण्यौ सर्वसत्त्वानां श्रेष्ठौ सर्वधनुष्मताम् ।<br>रक्षःकुलनिहन्तारौ त्रायेतां नो रघूत्तमौ ॥१९॥`, m:`सब प्राणियों को शरण देने वाले, धनुर्धरों में श्रेष्ठ और राक्षसकुल के संहारक दोनों रघुश्रेष्ठ हमारी रक्षा करें।`, tag:`राम-लक्ष्मण`},
+  {n:20, s:`आत्तसज्जधनुषाविषुस्पृशावक्षयाशुगनिषङ्गसङ्गिनौ ।<br>रक्षणाय मम रामलक्ष्मणावग्रतः पथि सदैव गच्छताम् ॥२०॥`, m:`चढ़े हुए धनुष और बाणों से सज्जित, अक्षय तरकस धारण किए राम-लक्ष्मण मेरी रक्षा के लिए मार्ग में सदा मेरे आगे चलें।`, tag:`प्रार्थना`},
+  {n:21, s:`सन्नद्धः कवची खड्गी चापबाणधरो युवा ।<br>गच्छन्मनोरथोऽस्माकं रामः पातु सलक्ष्मणः ॥२१॥`, m:`कवच पहने, खड्ग, धनुष और बाण धारण किए युवा श्रीराम, लक्ष्मण सहित चलते हुए, हमारी कामनाओं की रक्षा और पूर्ति करें।`, tag:`प्रार्थना`},
+  {n:22, s:`रामो दाशरथिः शूरो लक्ष्मणानुचरो बली ।<br>काकुत्स्थः पुरुषः पूर्णः कौसल्येयो रघूत्तमः ॥२२॥`, m:`वे राम हैं—दशरथपुत्र, वीर, लक्ष्मण से सेवित, बलवान, ककुत्स्थकुल में उत्पन्न, पूर्ण पुरुष, कौसल्यापुत्र और रघुकुलश्रेष्ठ।`, tag:`नामावली`},
+  {n:23, s:`वेदान्तवेद्यो यज्ञेशः पुराणपुरुषोत्तमः ।<br>जानकीवल्लभः श्रीमानप्रमेयपराक्रमः ॥२३॥`, m:`वे वेदान्त से जानने योग्य, यज्ञों के स्वामी, सनातन पुरुषोत्तम, जानकीप्रिय, ऐश्वर्यवान और अपरिमेय पराक्रम वाले हैं।`, tag:`नामावली`},
+  {n:24, s:`इत्येतानि जपेन्नित्यं मद्भक्तः श्रद्धयान्वितः ।<br>अश्वमेधाधिकं पुण्यं सम्प्राप्नोति न संशयः ॥२४॥`, m:`इन नामों का श्रद्धापूर्वक नित्य जप करने वाला भक्त अश्वमेध यज्ञ से भी अधिक पुण्य प्राप्त करता है—इसमें संशय नहीं।`, tag:`फलश्रुति`},
+  {n:25, s:`रामं दूर्वादलश्यामं पद्माक्षं पीतवाससम् ।<br>स्तुवन्ति नामभिर्दिव्यैर्न ते संसारिणो नराः ॥२५॥`, m:`दूर्वादल के समान श्याम, कमलनयन और पीताम्बरधारी राम की दिव्य नामों से स्तुति करने वाले जन्म-मरण के बन्धन में नहीं रहते।`, tag:`नाम-महिमा`},
+  {n:26, s:`रामं लक्ष्मणपूर्वजं रघुवरं सीतापतिं सुन्दरम् ।<br>काकुत्स्थं करुणार्णवं गुणनिधिं विप्रप्रियं धार्मिकम् ।<br>राजेन्द्रं सत्यसन्धं दशरथतनयं श्यामलं शान्तमूर्तिम् ।<br>वन्दे लोकाभिरामं रघुकुलतिलकं राघवं रावणारिम् ॥२६॥`, m:`लक्ष्मण के अग्रज, रघुश्रेष्ठ, सीतापति, करुणासागर, गुणनिधान, धर्मपरायण, सत्यप्रतिज्ञ, शान्तमूर्ति और रावण के शत्रु श्रीराघव को प्रणाम है।`, tag:`वन्दना`},
+  {n:27, s:`रामाय रामभद्राय रामचन्द्राय वेधसे ।<br>रघुनाथाय नाथाय सीतायाः पतये नमः ॥२७॥`, m:`राम, रामभद्र, रामचन्द्र, सृष्टिकर्ता, रघुनाथ, सबके नाथ और सीतापति को नमस्कार है।`, tag:`नमस्कार`},
+  {n:28, s:`श्रीराम राम रघुनन्दन राम राम ।<br>श्रीराम राम भरताग्रज राम राम ।<br>श्रीराम राम रणकर्कश राम राम ।<br>श्रीराम राम शरणं भव राम राम ॥२८॥`, m:`हे रघुनन्दन, भरत के अग्रज और रण में प्रचण्ड श्रीराम—आप ही मेरी शरण बनें।`, tag:`शरणागति`},
+  {n:29, s:`श्रीरामचन्द्रचरणौ मनसा स्मरामि ।<br>श्रीरामचन्द्रचरणौ वचसा गृणामि ।<br>श्रीरामचन्द्रचरणौ शिरसा नमामि ।<br>श्रीरामचन्द्रचरणौ शरणं प्रपद्ये ॥२९॥`, m:`मैं मन से श्रीराम के चरणों का स्मरण, वाणी से उनका गुणगान और सिर से प्रणाम करता हूँ; उन्हीं चरणों की शरण ग्रहण करता हूँ।`, tag:`शरणागति`},
+  {n:30, s:`माता रामो मत्पिता रामचन्द्रः ।<br>स्वामी रामो मत्सखा रामचन्द्रः ।<br>सर्वस्वं मे रामचन्द्रो दयालुः ।<br>नान्यं जाने नैव जाने न जाने ॥३०॥`, m:`राम ही मेरी माता, पिता, स्वामी और मित्र हैं। दयालु रामचन्द्र ही मेरा सर्वस्व हैं; उनके अतिरिक्त मैं किसी और को नहीं जानता।`, tag:`समर्पण`},
+  {n:31, s:`दक्षिणे लक्ष्मणो यस्य वामे तु जनकात्मजा ।<br>पुरतो मारुतिर्यस्य तं वन्दे रघुनन्दनम् ॥३१॥`, m:`जिनके दाहिने लक्ष्मण, बाएँ सीता और सामने हनुमान विराजते हैं, उन रघुनन्दन श्रीराम को मैं प्रणाम करता हूँ।`, tag:`वन्दना`},
+  {n:32, s:`लोकाभिरामं रणरङ्गधीरं राजीवनेत्रं रघुवंशनाथम् ।<br>कारुण्यरूपं करुणाकरं तं श्रीरामचन्द्रं शरणं प्रपद्ये ॥३२॥`, m:`लोकों को आनन्द देने वाले, रणभूमि में धीर, कमलनयन, रघुवंशनाथ और करुणा के साकार रूप श्रीरामचन्द्र की मैं शरण लेता हूँ।`, tag:`शरणागति`},
+  {n:33, s:`मनोजवं मारुततुल्यवेगं जितेन्द्रियं बुद्धिमतां वरिष्ठम् ।<br>वातात्मजं वानरयूथमुख्यं श्रीरामदूतं शरणं प्रपद्ये ॥३३॥`, m:`मन के समान तीव्र, वायु के समान वेगवान, जितेन्द्रिय, बुद्धिमानों में श्रेष्ठ, वायुपुत्र और वानरसेना के नायक श्रीहनुमान की मैं शरण लेता हूँ।`, tag:`हनुमत्-स्तुति`},
+  {n:34, s:`कूजन्तं राम रामेति मधुरं मधुराक्षरम् ।<br>आरुह्य कविताशाखां वन्दे वाल्मीकिकोकिलम् ॥३४॥`, m:`कविता की शाखा पर बैठकर “राम-राम” के मधुर अक्षरों का गान करने वाले कोकिलरूप महर्षि वाल्मीकि को प्रणाम है।`, tag:`वाल्मीकि-वन्दना`},
+  {n:35, s:`आपदामपहर्तारं दातारं सर्वसम्पदाम् ।<br>लोकाभिरामं श्रीरामं भूयो भूयो नमाम्यहम् ॥३५॥`, m:`आपत्तियों को दूर करने वाले, सभी सम्पदाओं के दाता और लोकों को आनन्द देने वाले श्रीराम को मैं बार-बार नमस्कार करता हूँ।`, tag:`राम-वन्दना`},
+  {n:36, s:`भर्जनं भवबीजानामर्जनं सुखसम्पदाम् ।<br>तर्जनं यमदूतानां राम रामेति गर्जनम् ॥३६॥`, m:`“राम-राम” का उद्घोष संसार-बन्धन के बीजों को भस्म करता, सुख-सम्पदा जुटाता और यमदूतों को दूर रखता है।`, tag:`नाम-महिमा`},
+  {n:37, s:`रामो राजमणिः सदा विजयते रामं रमेशं भजे ।<br>रामेणाभिहता निशाचरचमू रामाय तस्मै नमः ।<br>रामान्नास्ति परायणं परतरं रामस्य दासोऽस्म्यहम् ।<br>रामे चित्तलयः सदा भवतु मे भो राम मामुद्धर ॥३७॥`, m:`राजाओं में मणि श्रीराम सदा विजयी हैं। मैं सीतापति राम को भजता हूँ; उन्हीं ने राक्षससेना का नाश किया। राम से श्रेष्ठ कोई आश्रय नहीं—मैं उनका दास हूँ। मेरा चित्त सदा राम में लीन हो; हे राम, मेरा उद्धार करें।`, tag:`नाम-महिमा`},
+  {n:38, s:`राम रामेति रामेति रमे रामे मनोरमे ।<br>सहस्रनाम तत्तुल्यं रामनाम वरानने ॥३८॥`, m:`शिव पार्वती से कहते हैं—हे सुन्दर मुखवाली, मैं “राम-राम” नाम में रमण करता हूँ; रामनाम विष्णु के सहस्र नामों के तुल्य है।`, tag:`उपसंहार`}
+];
+
+const english = [
+  `Raghunatha’s story extends to a hundred crore verses; every single syllable is said to destroy even the gravest sins.`,
+  `Meditate on Rama, dark as a blue lotus and lotus-eyed, accompanied by Janaki and Lakshmana, and crowned with matted locks.`,
+  `Holding sword, quiver, bow and arrows, the destroyer of night-roaming demons—the unborn, all-pervading Lord appeared by his own play to protect the world.`,
+  `The wise should recite this Ram Raksha, which removes sin and grants every worthy aim. May Raghava guard my head and Dasharatha’s son my brow.`,
+  `May Kausalya’s son guard my eyes, Vishvamitra’s beloved my ears, the protector of sacrifice my nose, and Lakshmana’s loving Lord my mouth.`,
+  `May the treasury of knowledge guard my tongue, he whom Bharata reveres my throat, the bearer of divine weapons my shoulders, and the breaker of Shiva’s bow my arms.`,
+  `May Sita’s Lord guard my hands, the victor over Parashurama my heart, the destroyer of Khara my middle, and Jambavan’s refuge my navel.`,
+  `May Sugriva’s Lord guard my waist, Hanuman’s master my thighs, and the best of the Raghus—the destroyer of the demon clans—my upper legs.`,
+  `May the bridge-builder guard my knees, Ravana’s destroyer my shins, the giver of prosperity to Vibhishana my feet, and Rama my whole body.`,
+  `The virtuous person who recites this protection, filled with Rama’s power, becomes long-lived, happy, blessed with children, victorious and humble.`,
+  `Beings that move through the netherworld, earth or sky, even in disguise, cannot so much as behold one protected by Rama’s names.`,
+  `Remembering “Rama,” “Ramabhadra,” or “Ramachandra,” a person remains untouched by sin and attains both worldly fulfilment and liberation.`,
+  `Whoever wears at the throat the single world-conquering mantra—the name of Rama—holds every spiritual attainment within reach.`,
+  `Whoever remembers this Ram-armour, called the diamond cage, finds their command unobstructed and gains victory and auspiciousness everywhere.`,
+  `As Shiva instructed this Ram Raksha in a dream, so Budha Kaushika wrote it down upon awakening at dawn.`,
+  `Rama is the garden of wish-fulfilling trees, the end of every calamity, and the delight of the three worlds; that glorious Rama is our Lord.`,
+  `The two young brothers are handsome, gentle and immensely strong, with broad lotus-like eyes, clothed in bark and black deerskin.`,
+  `Living on fruits and roots, self-controlled, ascetic and celibate—these two sons of Dasharatha are the brothers Rama and Lakshmana.`,
+  `Refuge of all beings, finest of all archers and destroyers of the demon clans—may those two noblest Raghus protect us.`,
+  `With bows strung, arrows in hand and inexhaustible quivers, may Rama and Lakshmana always walk ahead of me on the path for my protection.`,
+  `Armoured, sword-bearing, youthful, and carrying bow and arrows—may Rama, walking with Lakshmana, protect and fulfil our aspirations.`,
+  `Rama is Dasharatha’s heroic son, attended by Lakshmana, mighty, born in the Kakutstha line, the complete person, Kausalya’s son and the best of the Raghus.`,
+  `He is known through Vedanta, Lord of sacrifice, the ancient Supreme Person, Janaki’s beloved, glorious, and of immeasurable valour.`,
+  `My devotee who repeats these names daily with faith obtains merit greater than an Ashvamedha sacrifice—of this there is no doubt.`,
+  `Those who praise with divine names Rama—dark as durva grass, lotus-eyed and clad in yellow—are no longer bound to worldly rebirth.`,
+  `I bow to Rama: Lakshmana’s elder, best of the Raghus, Sita’s beautiful Lord, ocean of compassion, treasury of virtue, righteous king, true to his word, serene son of Dasharatha, delight of the world and foe of Ravana.`,
+  `Salutations to Rama, Ramabhadra and Ramachandra—the creator, Lord of the Raghus, Lord of all, and husband of Sita.`,
+  `O Shri Rama—joy of the Raghus, Bharata’s elder brother, fierce in battle—O Rama, become my refuge.`,
+  `I remember Shri Ramachandra’s feet in my mind, praise them with my speech, bow to them with my head, and take refuge in them.`,
+  `Rama is my mother; Ramachandra my father. Rama is my master; Ramachandra my friend. Compassionate Ramachandra is my everything; I know no other.`,
+  `I bow to Raghunandana, with Lakshmana at his right, Janaka’s daughter at his left, and Hanuman before him.`,
+  `I take refuge in Shri Ramachandra—the delight of the worlds, steadfast in battle, lotus-eyed Lord of the Raghu line, compassion embodied and giver of mercy.`,
+  `I take refuge in Hanuman: swift as thought and wind, master of the senses, foremost among the wise, son of Vayu, leader of the vanaras and messenger of Rama.`,
+  `I bow to Valmiki, the cuckoo perched upon poetry’s branch, singing the sweet, melodious syllables “Rama, Rama.”`,
+  `Again and again I bow to Shri Rama, remover of distress, giver of every prosperity, and delight of the worlds.`,
+  `The thunderous cry “Rama, Rama” burns the seeds of worldly bondage, gathers the wealth of happiness and drives away Yama’s messengers.`,
+  `Rama, jewel among kings, is ever victorious. I worship Rama, Lord of Lakshmi; by Rama the demon army was destroyed. There is no refuge higher than Rama; I am Rama’s servant. May my mind always dissolve in Rama—O Rama, uplift me.`,
+  `Shiva says to Parvati: “O lovely-faced one, I delight in repeating Rama, Rama. The name of Rama equals the thousand names of Vishnu.”`
+];
+
+const devanagari = n => String(n).replace(/\d/g, d => '०१२३४५६७८९'[d]);
+const introEntries = [
+  {
+    id: `intro`, label: `विनियोगः`, number: `विनियोगः`, tag: `आरम्भ`,
+    s: `अस्य श्रीरामरक्षास्तोत्रमन्त्रस्य बुधकौशिक ऋषिः ।<br>श्रीसीतारामचन्द्रो देवता । अनुष्टुप् छन्दः ।<br>सीता शक्तिः । श्रीमद् हनुमान् कीलकम् ।<br>श्रीरामचन्द्रप्रीत्यर्थे रामरक्षास्तोत्रजपे विनियोगः ॥`,
+    hi: `इस स्तोत्र के ऋषि बुधकौशिक हैं, आराध्य श्रीसीतारामचन्द्र हैं, छन्द अनुष्टुप् है, सीता इसकी शक्ति हैं और श्रीहनुमान इसका कीलक हैं। श्रीराम की प्रसन्नता के लिए इस पाठ का संकल्प किया जाता है।`,
+    en: `The seer of this Ram Raksha mantra is Budha Kaushika; the deity is Shri Sita-Ramachandra; its metre is Anushtubh. Sita is its power and Shri Hanuman its key. The recitation is undertaken to please Shri Ramachandra.`
+  },
+  {
+    id: `dhyana`, label: `अथ ध्यानम्`, number: `ध्यानम्`, tag: `ध्यान`,
+    s: `ध्यायेदाजानुबाहुं धृतशरधनुषं बद्धपद्मासनस्थम् ।<br>पीतं वासो वसानं नवकमलदलस्पर्धिनेत्रं प्रसन्नम् ।<br>वामाङ्कारूढसीतामुखकमलमिलल्लोचनं नीरदाभम् ।<br>नानालङ्कारदीप्तं दधतमुरुजटामण्डनं रामचन्द्रम् ॥`,
+    hi: `घुटनों तक लम्बी भुजाओं वाले, धनुष-बाण धारण किए, पद्मासन में स्थित श्रीराम का ध्यान करें। वे पीताम्बर पहने, नवकमल जैसे नेत्रों से प्रसन्न, मेघ-श्याम, अलङ्कारों और जटामुकुट से शोभित हैं; उनकी दृष्टि वामभाग में विराजमान सीता के मुखकमल पर है।`,
+    en: `Meditate on Ramachandra, whose arms reach his knees, holding bow and arrow and seated in lotus posture. Clad in yellow, serene and cloud-dark, his eyes rival fresh lotus petals and rest upon Sita seated at his left; ornaments and a crown of matted locks adorn him.`
+  }
+];
+
+const entries = [
+  ...introEntries,
+  ...verses.map((v, i) => ({ id: `shloka-${v.n}`, label: `श्लोक ${devanagari(v.n)}`, number: `श्लोक ${devanagari(v.n)}`, tag: v.tag, s: v.s, hi: v.m, en: english[i] }))
+];
+
+const deck = document.getElementById('deck');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const cardLabel = document.getElementById('cardLabel');
+const cardCount = document.getElementById('cardCount');
+const progressFill = document.getElementById('progressFill');
+const progressSlider = document.getElementById('progressSlider');
+progressSlider.max = entries.length;
+let current = 0;
+let activeCard = null;
+
+function createCard(entry, index) {
+  const article = document.createElement('article');
+  article.className = 'scroll is-active';
+  article.id = entry.id;
+  article.setAttribute('role', 'group');
+  article.setAttribute('aria-roledescription', 'card');
+  article.setAttribute('aria-label', `${entry.label}, ${devanagari(index + 1)} of ${devanagari(entries.length)}`);
+  article.innerHTML = `
+    <div class="scroll-head"><span class="number">${entry.number}</span><span class="tag">${entry.tag}</span></div>
+    <p class="verse" lang="sa">${entry.s}</p>
+    <div class="meanings">
+      <section class="meaning-block" lang="en"><span class="meaning-label">ENGLISH MEANING</span><p>${entry.en}</p></section>
+      <section class="meaning-block" lang="hi"><span class="meaning-label">हिन्दी भावार्थ</span><p>${entry.hi}</p></section>
+    </div>`;
+  return article;
+}
+
+function showCard(nextIndex, animate = true) {
+  const clamped = Math.max(0, Math.min(entries.length - 1, nextIndex));
+  if (clamped === current && activeCard) return;
+  const direction = activeCard ? (clamped > current ? 'move-next' : 'move-prev') : '';
+
+  current = clamped;
+  activeCard = createCard(entries[current], current);
+  deck.replaceChildren(activeCard);
+
+  cardLabel.textContent = entries[current].label;
+  cardCount.textContent = `${devanagari(current + 1)} / ${devanagari(entries.length)} · खींचकर चुनें`;
+  const progress = ((current + 1) / entries.length) * 100;
+  progressFill.style.width = `${progress}%`;
+  progressSlider.value = current + 1;
+  progressSlider.setAttribute('aria-valuetext', `${entries[current].label}, ${devanagari(current + 1)} / ${devanagari(entries.length)}`);
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === entries.length - 1;
+  nextBtn.textContent = current === entries.length - 1 ? 'सम्पूर्ण' : 'अगला →';
+
+  deck.classList.remove('move-next', 'move-prev');
+  if (direction && animate) {
+    void activeCard.offsetWidth;
+    deck.classList.add(direction);
+  }
+}
+
+prevBtn.addEventListener('click', () => showCard(current - 1));
+nextBtn.addEventListener('click', () => showCard(current + 1));
+progressSlider.addEventListener('input', event => showCard(Number(event.target.value) - 1, false));
+document.addEventListener('keydown', event => {
+  if (event.key === 'ArrowLeft') showCard(current - 1);
+  if (event.key === 'ArrowRight') showCard(current + 1);
+});
+
+let startX = 0;
+let startY = 0;
+let tracking = false;
+deck.addEventListener('pointerdown', event => {
+  if (event.pointerType === 'mouse' && event.button !== 0) return;
+  startX = event.clientX;
+  startY = event.clientY;
+  tracking = true;
+});
+deck.addEventListener('pointerup', event => {
+  if (!tracking) return;
+  tracking = false;
+  const dx = event.clientX - startX;
+  const dy = event.clientY - startY;
+  if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+  showCard(current + (dx < 0 ? 1 : -1));
+});
+deck.addEventListener('pointercancel', () => { tracking = false; });
+
+showCard(0);
+
+</script>
+</body>
+</html>
