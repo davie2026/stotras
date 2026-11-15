@@ -1,1 +1,0 @@
-write-probe 2026-11-15, to test if any GitHub write works; delete immediately after
